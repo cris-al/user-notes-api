@@ -2,7 +2,7 @@ const { Router } = require('express');
 require('dotenv').config();
 const { getUsers, register, login, registerJBC, loginJBC } = require('../controllers/user_controller');
 const { getUserNotes, createNote } = require('../controllers/note_controller');
-const { getSongs, createSong, deleteSong } = require('../controllers/song_controller');
+const { getSongs, createSong, deleteSong, showOrNotShow } = require('../controllers/song_controller');
 
 const router = Router();
 
@@ -25,5 +25,7 @@ router.get('/jbc/songs', getSongs);
 router.post('/jbc/songs', createSong);
 
 router.delete('/jbc/songs/:id', deleteSong);
+
+router.put('/jbc/songs/:id', showOrNotShow);
 
 module.exports = router;

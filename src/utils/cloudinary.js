@@ -21,7 +21,7 @@ const uploadFileToCloudinary = async (b64) => {
 }
 
 const deleteFileFromCloud = async (publicIdSong, publicIdImage) => {
-    const res1 = await cloudinary.uploader.destroy(publicIdSong);
+    const res1 = await cloudinary.uploader.destroy( publicIdSong, { resource_type: 'video' });
     if(publicIdImage!==''){
         await cloudinary.uploader.destroy(publicIdImage);
     }
