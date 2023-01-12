@@ -18,7 +18,7 @@ const getSongs = async (req, res) => {
 };
 
 const createSong = async (req, res) => {
-    const { name, artist, album, songB64, imageB64 } = req.body;
+    const { name, artist, album, genre, songB64, imageB64 } = req.body;
     try {
         if(!name) return res.status(400).json({
             success: false,
@@ -34,6 +34,13 @@ const createSong = async (req, res) => {
             msg: 'song is require...'
         });
 
+        if(!genre) return res.status(400).json({
+            success: false,
+            count: 0,
+            data: {},
+            msg: 'genre is require...'
+        });
+
         const song = await uploadFileToCloudinary(songB64);
         let image;
         if(imageB64) {
@@ -44,6 +51,7 @@ const createSong = async (req, res) => {
             name: name,
             artist: artist || 'Artista desconocido',
             album: album || 'Album desconocido',
+            genre: genre,
             urlsong: song.secure_url,
             publicidsong: song.public_id,
             urlimage: image.secure_url || '',

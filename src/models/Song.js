@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
         album: {
             type: DataTypes.STRING,
         },
+        genre: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         urlsong: {
             type: DataTypes.TEXT,
             allowNull: false,
