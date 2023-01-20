@@ -1,4 +1,4 @@
-const {User, Note, JBCUser, Song} = require('../db.js');
+const {User, Jbcuser} = require('../db.js');
 const {SECRET_JWT} = process.env;
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -119,7 +119,7 @@ const registerJBC = async (req, res) => {
         let salt = await bcryptjs.genSalt(10);
         password = await bcryptjs.hash(password, salt);
         
-        const user = await JBCUser.create({ username, password });
+        const user = await Jbcuser.create({ username, password });
         res.status(200).json({
                         success: true,
                         count: 1,
@@ -133,7 +133,7 @@ const registerJBC = async (req, res) => {
 
 const loginJBC = async (req, res) => {
     const {username, password} = req.body;
-    
+    console.log(username, password)
     try {
         if(!username) return res.json({
                                 success: false,
@@ -146,13 +146,13 @@ const loginJBC = async (req, res) => {
                                 data: {},
                                 msg: 'password is require...'});
         
-        let user = await User.findOne({where: {username: username}});
+        let user = await Jbcuser.findOne({where: {username: username}});
 
         if(!user) return res.json({
                                 success: false,
                                 count: 0,
                                 data: {},
-                                msg: 'username is not found...'});
+                                msg: 'incorrect username and/or password'});
         
         let passwordCorrect = await bcryptjs.compare(password, user.password);
 
@@ -160,12 +160,12 @@ const loginJBC = async (req, res) => {
                                 success: false,
                                 count: 0,
                                 data: {},
-                                msg: 'incorrect password...'});
+                                msg: 'incorrect username and/or password'});
         
         const payload = {username: user.username};
         const token = jwt.sign(payload, SECRET_JWT, {expiresIn: '1d'});
         
-        res.json({
+        res.status(200).json({
             success: true,
             count: 1,
             data:{user, token},

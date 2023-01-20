@@ -6,10 +6,15 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT
 } = process.env;
 
-let sequelize = new Sequelize(
+let sequelize = 
+new Sequelize(
                         `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
                         { logging: false, native: false }
                       );
+// new Sequelize(
+//                         `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+//                         { logging: false, native: false }
+//                       );
 const basename = path.basename(__filename);
 
 const modelDefiners = [];

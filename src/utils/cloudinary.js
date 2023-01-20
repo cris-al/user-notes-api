@@ -1,9 +1,6 @@
 const { v2: cloudinary } = require('cloudinary');
-const {
-    CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY,
-    CLOUDINARY_API_SECRET
-} = process.env;
+const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET } = process.env;
 
 cloudinary.config({ 
     cloud_name: CLOUDINARY_CLOUD_NAME, 
@@ -28,4 +25,17 @@ const deleteFileFromCloud = async (publicIdSong, publicIdImage) => {
     return res1;
 }
 
-module.exports = { uploadFileToCloudinary, deleteFileFromCloud };
+const uploadImage = async (imgB64) => {
+    const result = await cloudinary.uploader.upload(imgB64, {
+        folder: 'jbc-productions/images'
+    });
+    return result;
+}
+
+const deleteImage = async (publicIdImage) => {
+    const res1 = await cloudinary.uploader.destroy( publicIdImage );
+    return res1;
+}
+
+module.exports = { uploadFileToCloudinary, deleteFileFromCloud,
+    uploadImage, deleteImage };
